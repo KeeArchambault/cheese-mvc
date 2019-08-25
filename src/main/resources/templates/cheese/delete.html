@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body>
+<nav th:replace="fragments :: navigation"></nav>
+<h1 th:text="${title}"></h1>
+
+<!--<input th:each="cheese : ${cheeses}" th:text="${getName(cheese)}" type="checkbox"/>-->
+
+<!--<input type="submit" value="Remove Cheese"/>-->
+
+
+<form name='delete-form' th:object="${deleteForm}" method='POST'>
+    <table>
+        <tr>
+            <td>Delete Cheese:</td>
+            <td>
+                <select th:field="*{cheeses}">
+                    <option value=""> -- </option>
+                    <option th:each="Cheese : ${Cheeses}"
+                            th:value="${cheese.getName}"
+                            th:utext="${cheese.getName}"/>
+                </select>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td><input name="submit" type="submit" value="submit" /></td>
+        </tr>
+    </table>
+</form>
+
+</body>
+
+
+
+</body>
+</html>

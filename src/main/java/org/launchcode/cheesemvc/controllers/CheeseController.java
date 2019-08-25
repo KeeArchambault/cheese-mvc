@@ -1,19 +1,19 @@
 package org.launchcode.cheesemvc.controllers;
 
+import org.launchcode.cheesemvc.models.Cheese;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 @Controller
 @RequestMapping("cheese")
 public class CheeseController {
 
-    static ArrayList<String> cheeses = new ArrayList<>();
+    private static ArrayList<Cheese> cheeses = new ArrayList<>();
 
     // Request path: /cheese
     @RequestMapping(value="")
@@ -31,10 +31,28 @@ public class CheeseController {
     }
 
     @RequestMapping(value="add", method = RequestMethod.POST)
-    public String processAddcheeseForm(@RequestParam String cheeseName){
-        cheeses.add(cheeseName);
+    public String processAddCheeseForm(@RequestParam String aName, @RequestParam String aDescription){
+        Cheese cheese = new Cheese(aName, aDescription);
+        cheeses.add(cheese);
 
         //redirect to /cheese
         return "redirect:";
     }
+
+    @RequestMapping(value = "delete", method = RequestMethod.GET)
+    public String displayDeleteCheeseForm(Model model){
+        return "cheese/delete";
+    }
+
+    @RequestMapping(value="delete", method = RequestMethod.POST)
+    public String processDeleteCheeseForm(Model model, @RequestParam Cheese cheese){
+        model.addAttribute("deleteForm", cheese);
+
+        model.addAttribute("cheeses", cheese);
+        cheeses.remove(cheese);
+
+        //redirect to /cheese
+        return "redirect: /cheese";
+    }
+
 }
